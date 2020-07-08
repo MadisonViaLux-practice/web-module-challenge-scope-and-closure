@@ -23,15 +23,22 @@ function processFirstItem(stringList, callback) {
 
 ///// M V P ///////
 
+
+
+
 /* Task 1: `counterMaker`
  * Study the code for counter1 and counter2. Answer the questions below.
  * 
  * 1. What is the difference between counter1 and counter2?
+ *  counter1 is fully using scope and closure by returning a function while counter 2 is only using memory.
  * 
  * 2. Which of the two uses a closure? How can you tell?
+ *  counter1 because it's returning a function that is returning a called variable from outside its original function. 
  * 
  * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
- *
+ *  counter1's example is more useful in an environment where functions require previous variables to be kept track of
+ *  and utilized, while counter2's example is more memory efficient.
+ * 
 */
 
 // counter1 code
@@ -41,8 +48,12 @@ function counterMaker() {
    return count++;
   }
 }
-
 const counter1 = counterMaker();
+console.log(counter1)
+console.log(counter1())
+console.log(counter1())
+console.log(counter1())
+
 
 // counter2 code
 let count = 0;
@@ -50,21 +61,32 @@ let count = 0;
 function counter2() {
   return count++;
 }
+console.log(counter2)
+console.log(counter2())
+console.log(counter2())
+console.log(counter2())
+
+
 
 
 /* Task 2: inning() 
 
-Write a function called `inning` that returns a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
+Write a function called `inning` that returns a random number of points that a team scored in an inning. 
+This should be a whole number between 0 and 2. */
 
-function inning(/*Code Here*/){
-
-    /*Code Here*/
-
+function inning(){
+  return Math.floor(Math.random()*3)
 }
+
+console.log(inning())
+
+
+
 
 /* Task 3: finalScore()
 
-Write a higher order function called `finalScore` that accepts the callback function `inning` (from above) and a number of innings and and returns the final score of the game in the form of an object.
+Write a higher order function called `finalScore` that accepts the callback function `inning` (from above) 
+and a number of innings and and returns the final score of the game in the form of an object.
 
 For example, 
 
@@ -76,11 +98,23 @@ finalScore(inning, 9) might return:
 
 */ 
 
-function finalScore(/*code Here*/){
+function finalScore(inning, i){
 
-  /*Code Here*/
+  let home = 0;
+  let away = 0;
 
+  for(let n = 0; n < i; n++){
+    home += inning();
+    away += inning();
+  }
+
+  return `Home: ${home}, \nAway: ${away}`
 }
+
+console.log(finalScore(inning, 9))
+
+
+
 
 /* Task 4: 
 
@@ -103,8 +137,31 @@ and returns the score at each pont in the game, like so:
 Final Score: awayTeam - homeTeam */
 
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(inning, i){
+
+  let home = 0;
+  let away = 0;
+  let string = "";
+
+    for(let n = 1; n <=i; n++){
+
+      home += inning();
+      away += inning();
+
+      if(n == 1){
+        string += `${n}st inning: ${home} - ${away}\n`;
+      } else if(n == 2){
+        string += `${n}nd inning: ${home} - ${away}\n`;
+      } else if(n == 3){
+        string += `${n}rd inning: ${home} - ${away}\n`;
+      } else {
+        string += `${n}th inning: ${home} - ${away}\n`;
+      }
+    }
+
+  string += `\nFinal Score: ${home} - ${away}`;
+  
+  return string;
 }
 
-
+console.log(scoreboard(inning, 9));
